@@ -1,0 +1,23 @@
+# Automatically normalize line endings
+* text=auto
+
+# Backend source code files
+*.js     text eol=lf
+*.json   text eol=lf
+*.env    text eol=lf
+*.ts     text eol=lf
+
+# Markdown & config files
+*.md     text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+
+# Shell & batch scripts
+*.sh     text eol=lf
+*.bat    text eol=crlf
+
+# Ignore binary content from line-ending normalization
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.svg    binary

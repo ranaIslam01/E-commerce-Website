@@ -4,6 +4,8 @@ import Product from '../models/productModel.js';
 // @route   GET /api/products?keyword=yourSearchTerm
 // @access  Public
 const getProducts = async (req, res) => {
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 8;
   const keyword = req.query.keyword
     ? {
         name: {
@@ -14,8 +16,16 @@ const getProducts = async (req, res) => {
     : {};
 
   try {
-    const products = await Product.find({ ...keyword });
-    res.json(products);
+    const count = await Product.countDocuments({ ...keyword });
+    const products = await Product.find({ ...keyword })
+      .skip(limit * (page - 1))
+      .limit(limit);
+    res.json({
+      products,
+      page,
+      pages: Math.ceil(count / limit),
+      total: count,
+    });
   } catch (error) {
     console.error(`Error fetching products: ${error.message}`);
     res.status(500).json({ message: 'Server Error: Could not fetch products' });

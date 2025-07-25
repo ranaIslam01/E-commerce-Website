@@ -24,14 +24,15 @@ const authUser = async (req, res) => {
 // @route   POST /api/users
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
-  const userExists = await User.findOne({ email });
+  const normalizedEmail = email.trim().toLowerCase();
+  const userExists = await User.findOne({ email: normalizedEmail });
 
   if (userExists) {
     res.status(400).json({ message: 'User already exists' });
     return;
   }
 
-  const user = await User.create({ name, email, password });
+  const user = await User.create({ name, email: normalizedEmail, password });
 
   if (user) {
     generateToken(res, user._id);

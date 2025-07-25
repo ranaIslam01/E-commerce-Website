@@ -1,86 +1,144 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
-import { useLocation, Link } from 'react-router-dom'; // useLocation এবং Link import করা হয়েছে
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 
-// Reducer function state management er jonno
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
-      return { ...state, loading: true }; // Data fetch shuru hole loading true hobe
+      return { ...state, loading: true };
     case 'FETCH_SUCCESS':
-      return { ...state, products: action.payload, loading: false }; // Data fetch shofol hole products update hobe, loading false hobe
+      return { ...state, ...action.payload, loading: false };
     case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload }; // Data fetch byartho hole error message dekhabe, loading false hobe
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
 };
 
 const HomePage = () => {
-  // useReducer hook bebohar kore state ebong dispatch function neoya hocche
-  const [{ loading, error, products }, dispatch] = useReducer(reducer, {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const keyword = searchParams.get('keyword') || '';
+  const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
+  const limit = 8;
+
+  const [{ loading, error, products, pages, total }, dispatch] = useReducer(reducer, {
     products: [],
     loading: true,
     error: '',
+    pages: 1,
+    total: 0,
   });
 
-  const location = useLocation(); // Bortoman URL er information paoar jonno
-  const searchParams = new URLSearchParams(location.search); // URL theke query parameters neoya hocche
-  const keyword = searchParams.get('keyword') || ''; // 'keyword' query parameter-er value neoya hocche, na thakle khali string
-
-  // useEffect hook bebohar kore component mount howar por ebong keyword poriborton hole product fetch kora hocche
   useEffect(() => {
     const fetchProducts = async () => {
-      dispatch({ type: 'FETCH_REQUEST' }); // Fetch request shuru
+      dispatch({ type: 'FETCH_REQUEST' });
       try {
-        // Jodi keyword thake, tahole API call e sheta pathano hocche
-        // Example: /api/products?keyword=laptop
-        const { data } = await axios.get(`/api/products?keyword=${keyword}`);
-        dispatch({ type: 'FETCH_SUCCESS', payload: data }); // Fetch shofol
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_API_URL || ''}/api/products?keyword=${keyword}&page=${page}&limit=${limit}`
+        );
+        dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: err.message }); // Fetch byartho
+        dispatch({ type: 'FETCH_FAIL', payload: err.message });
       }
     };
     fetchProducts();
-  }, [keyword]); // Dependency array-te keyword rakha hoyeche, tai keyword poriborton holei ei effect abar cholbe
+  }, [keyword, page]);
+
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    const params = new URLSearchParams(location.search);
+    if (newPage > 1) {
+      params.set('page', newPage);
+    } else {
+      params.delete('page');
+    }
+    navigate({ search: params.toString() });
+  };
 
   return (
-    <div>
-      {/* Jodi search keyword thake ebong product paoya jay, tahole search result er jonno heading dekhabe */}
-      {keyword && products.length > 0 && (
+    <div className="w-full max-w-7xl mx-auto px-2 md:px-0">
+      {keyword && products && products.length > 0 && (
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Results for: "{keyword}"
         </h2>
       )}
-      {/* Jodi search keyword thake kintu kono product paoya na jay (ebong loading shesh) */}
-      {keyword && products.length === 0 && !loading && (
-         <div className="text-center py-10">
-            <p className="text-xl text-gray-600 mb-2">No products found for "{keyword}"</p>
-            <Link to="/" className="text-blue-600 hover:underline">Back to Homepage</Link>
+
+      {keyword && (!products || products.length === 0) && !loading && (
+        <div className="text-center py-10">
+          <p className="text-xl text-gray-600 mb-2">
+            No products found for "{keyword}"
+          </p>
+          <Link to="/" className="text-blue-600 hover:underline">
+            Back to Homepage
+          </Link>
         </div>
       )}
-      {/* Jodi kono search keyword na thake (normal homepage) */}
+
       {!keyword && (
-         <h1 className="text-3xl font-bold text-gray-800 mb-6">Latest Products</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center md:text-left">
+          Latest Products
+        </h1>
       )}
-      
-      {/* Loading state handle kora hocche */}
+
       {loading ? (
-        <div>Loading...</div>
-      ) : error ? ( // Error state handle kora hocche
-        <div className="text-red-500">{error}</div>
-      ) : products.length > 0 ? ( // Jodi product thake (search result ba normal homepage)
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+        <div className="flex justify-center items-center min-h-[200px]">
+          <span className="text-lg text-gray-500">Loading...</span>
         </div>
+      ) : error ? (
+        <div className="text-red-500 text-center">{error}</div>
+      ) : products && products.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-8">
+            {products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+          {/* Pagination Controls */}
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-8">
+            <button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page <= 1}
+              className="px-4 py-2 rounded bg-gray-200 text-gray-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition"
+            >
+              Prev
+            </button>
+            {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                onClick={() => handlePageChange(p)}
+                className={`px-3 py-1 rounded font-bold mx-1 border-2 transition ${
+                  p === page
+                    ? 'bg-blue-600 text-white border-blue-600 shadow'
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-blue-50'
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page >= pages}
+              className="px-4 py-2 rounded bg-gray-200 text-gray-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition"
+            >
+              Next
+            </button>
+          </div>
+          <div className="text-center text-gray-500 mb-4">
+            Showing {(page - 1) * limit + 1} - {Math.min(page * limit, total)} of {total} products
+          </div>
+        </>
       ) : (
-        // Ei else block ta shudhu tokhon kaaj korbe jokhon keyword nei ebong products o nei (jemon database khali thakle)
-        // Ekhon "No products found" message-ti uporei handle kora hocche keyword er jonno
-        // Tai, jodi keyword na thake ebong product list khali thake, tahole ei message dekhabe
-        !keyword && <div className="text-center py-10"><p className="text-xl text-gray-600">No products available at the moment.</p></div>
+        !keyword && (
+          <div className="text-center py-10">
+            <p className="text-xl text-gray-600">
+              No products available at the moment.
+            </p>
+          </div>
+        )
       )}
     </div>
   );
