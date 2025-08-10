@@ -115,10 +115,10 @@ const ProductCard = ({ product }) => {
 
           {/* Wishlist Button */}
           <button
-            onClick={toggleWishlist}
+            onClick={handleWishlistToggle}
             className={`absolute top-3 right-3 p-2 rounded-full transition-all duration-300 z-20 ${
-              isWishlisted 
-                ? 'bg-red-500 text-white shadow-modern' 
+              isInWishlist(product._id)
+                ? 'bg-red-500 text-white shadow-modern'
                 : 'bg-white/80 backdrop-blur-sm text-gray-600 hover:bg-red-50 hover:text-red-500'
             } ${badges.some(b => b.position === 'top-right') ? 'top-12' : ''}`}
           >
