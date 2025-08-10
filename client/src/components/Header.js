@@ -9,6 +9,7 @@ import DarkModeToggle from './DarkModeToggle';
 const Header = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
+  const { wishlistCount } = useWishlist();
   const navigate = useNavigate();
 
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
