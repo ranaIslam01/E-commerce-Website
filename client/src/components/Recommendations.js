@@ -137,7 +137,8 @@ const Recommendations = ({ currentProduct = null, type = 'general' }) => {
       setRecommendations(recs);
       setLoading(false);
     }, 1000);
-  }, [type, currentProduct, cart.cartItems, wishlistItems, userInfo, generateRecommendations]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type, currentProduct, cart.cartItems, wishlistItems, userInfo]);
 
   const getSectionTitle = () => {
     switch (type) {
