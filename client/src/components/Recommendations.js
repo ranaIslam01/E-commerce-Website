@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Store } from '../context/Store';
 import { useWishlist } from '../context/WishlistContext';
 import ProductCard from './ProductCard';
