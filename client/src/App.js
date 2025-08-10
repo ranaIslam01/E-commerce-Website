@@ -28,7 +28,8 @@ function App() {
             <Header />
             <main className="flex-grow pt-20">
               <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<ProjectVibeHomePage />} />
+                <Route path="/classic" element={<HomePage />} />
                 <Route path="/product/:id" element={<ProductPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/login" element={<LoginPage />} />
