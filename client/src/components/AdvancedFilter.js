@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from './Button';
 
 const AdvancedFilter = ({ onFilterChange, currentFilters, onClose }) => {
@@ -11,8 +11,6 @@ const AdvancedFilter = ({ onFilterChange, currentFilters, onClose }) => {
     sortBy: currentFilters.sort || 'featured',
     ...currentFilters
   });
-
-  const [priceRangeLocal, setPriceRangeLocal] = useState([0, 1000]);
 
   const categories = [
     { id: 'electronics', name: 'Electronics', count: 156 },
