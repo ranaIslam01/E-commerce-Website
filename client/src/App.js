@@ -4,6 +4,7 @@ import { WishlistProvider } from './context/WishlistContext';
 import { DarkModeProvider } from './context/DarkModeContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ProjectVibeHomePage from './pages/ProjectVibeHomePage';
 import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
