@@ -137,7 +137,7 @@ const Recommendations = ({ currentProduct = null, type = 'general' }) => {
       setRecommendations(recs);
       setLoading(false);
     }, 1000);
-  }, [type, currentProduct, cart.cartItems, wishlistItems, userInfo]);
+  }, [type, currentProduct, cart.cartItems, wishlistItems, userInfo, generateRecommendations]);
 
   const getSectionTitle = () => {
     switch (type) {
