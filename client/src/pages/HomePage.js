@@ -406,7 +406,44 @@ const HomePage = () => {
             </div>
           </div>
         )}
+
+        {/* Recommendations Section - Only show when no search/filters */}
+        {!hasFilters && products && products.length > 0 && (
+          <Recommendations type="general" />
+        )}
       </div>
+
+      {/* Advanced Filter Modal */}
+      {showAdvancedFilter && (
+        <AdvancedFilter
+          currentFilters={{
+            category,
+            sort: sortBy,
+            minPrice: priceRange.min,
+            maxPrice: priceRange.max
+          }}
+          onFilterChange={(newFilters) => {
+            // Update all filters at once
+            const params = new URLSearchParams();
+            if (newFilters.category) params.set('category', newFilters.category);
+            if (newFilters.sort && newFilters.sort !== 'featured') params.set('sort', newFilters.sort);
+            if (newFilters.minPrice) params.set('minPrice', newFilters.minPrice);
+            if (newFilters.maxPrice) params.set('maxPrice', newFilters.maxPrice);
+            if (keyword) params.set('keyword', keyword);
+
+            navigate({ search: params.toString() });
+
+            // Update local state
+            setSortBy(newFilters.sort || 'featured');
+            setPriceRange({
+              min: newFilters.minPrice || '',
+              max: newFilters.maxPrice || ''
+            });
+            setPage(1);
+          }}
+          onClose={() => setShowAdvancedFilter(false)}
+        />
+      )}
     </div>
   );
 };
