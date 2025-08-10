@@ -36,10 +36,10 @@ const ProductCard = ({ product }) => {
     setIsAddingToCart(false);
   };
 
-  const toggleWishlist = (e) => {
+  const handleWishlistToggle = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
+    toggleWishlist(product);
   };
 
   const handleQuickView = (e) => {
