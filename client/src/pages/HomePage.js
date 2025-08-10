@@ -32,6 +32,7 @@ const HomePage = () => {
     min: searchParams.get('minPrice') || '',
     max: searchParams.get('maxPrice') || ''
   });
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
   const limit = 12;
 
   const [{ loading, error, products, pages, total }, dispatch] = useReducer(reducer, {
