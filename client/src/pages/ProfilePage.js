@@ -6,22 +6,9 @@ export default function ProfilePage() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
 
-  // Recent Activity (dummy: recent orders)
-  const [recentOrders, setRecentOrders] = useState([]);
   useEffect(() => {
-    // Dummy: fetch last 3 orders from orders API if available
-    const fetchRecentOrders = async () => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_API_URL || 'https://ecommerce-server-1-6mhy.onrender.com'}/api/orders/myorders`,
-          { withCredentials: true }
-        );
-        setRecentOrders((Array.isArray(data) ? [...data] : []).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3));
-      } catch {
-        setRecentOrders([]);
-      }
-    };
-    fetchRecentOrders();
+    // Could fetch recent orders here if needed in future
+    console.log('Profile page loaded for user:', userInfo?.name);
   }, [userInfo]);
 
   // Profile Update
