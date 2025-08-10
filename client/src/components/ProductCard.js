@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Store } from '../context/Store';
+import { useWishlist } from '../context/WishlistContext';
 import StarRating from './StarRating';
 import Price from './Price';
 import Button from './Button';
