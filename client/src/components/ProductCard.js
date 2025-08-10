@@ -76,7 +76,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="group relative">
-      <div className="card-product bg-white rounded-2xl overflow-hidden shadow-modern hover:shadow-modern-xl transition-all duration-500">
+      <div className="card-product group bg-white rounded-2xl overflow-hidden shadow-modern hover:shadow-modern-xl transition-all duration-500">
         {/* Image Container */}
         <div className="relative aspect-square overflow-hidden bg-gray-100">
           {/* Skeleton loader */}
