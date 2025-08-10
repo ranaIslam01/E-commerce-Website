@@ -6,7 +6,6 @@ import Price from './Price';
 import Button from './Button';
 
 const SophisticatedProductGrid = ({ products, layout = 'asymmetric' }) => {
-  const { toggleWishlist, isInWishlist } = useWishlist();
   const [hoveredProduct, setHoveredProduct] = useState(null);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const gridRef = useRef(null);
@@ -110,7 +109,7 @@ const ProductCardVibe = ({
 }) => {
   const { toggleWishlist, isInWishlist } = useWishlist();
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [, setIsFlipped] = useState(false);
   const cardRef = useRef(null);
 
   const isFeatured = className.includes('featured-large');
@@ -312,7 +311,6 @@ const ProductCardVibe = ({
 };
 
 const QuickViewModal = ({ product, onClose }) => {
-  const [selectedImage, setSelectedImage] = useState(0);
   const modalRef = useRef(null);
 
   useEffect(() => {
