@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Project Vibe Advanced Animation System */
+@import './styles/animations.css';
+
 :root {
   /* Primary Brand Colors - Modern Fashion Forward */
   --primary-50: #f0f4ff;
