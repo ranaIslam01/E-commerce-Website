@@ -21,6 +21,22 @@ import OrderPage from './pages/OrderPage';
 import MyOrdersPage from './pages/MyOrdersPage';
 
 function App() {
+  // Initialize Performance Optimization for Core Web Vitals
+  useEffect(() => {
+    const performanceOptimizer = new PerformanceOptimizer();
+
+    // Report metrics after page load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        performanceOptimizer.reportMetrics();
+      }, 3000);
+    });
+
+    return () => {
+      performanceOptimizer.destroy();
+    };
+  }, []);
+
   return (
     <DarkModeProvider>
       <WishlistProvider>
