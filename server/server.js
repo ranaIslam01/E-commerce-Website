@@ -10,7 +10,7 @@ import cors from 'cors';
 // ✅ প্রথমেই .env config করুন
 dotenv.config();
 
-// ✅ এখন MONGO_URI log করুন
+// ✅ এখন MONGO_URI log ��রুন
 console.log("Mongo URI from .env:", process.env.MONGO_URI);
 
 // ✅ এরপর DB connect করুন
@@ -42,7 +42,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 
 // ✅ Server listen
-const PORT = 3001; // Force port 3001 for development
+const PORT = 4000; // Force port 4000 for development
 app.listen(PORT, () => {
   console.log(`✅ Server is running on port ${PORT}`);
 });
