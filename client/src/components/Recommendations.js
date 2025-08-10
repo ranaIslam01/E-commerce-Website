@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Store } from '../context/Store';
 import { useWishlist } from '../context/WishlistContext';
 import ProductCard from './ProductCard';
@@ -8,10 +8,9 @@ const Recommendations = ({ currentProduct = null, type = 'general' }) => {
   const { state } = useContext(Store);
   const { wishlistItems } = useWishlist();
   const { cart, userInfo } = state;
-  
+
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentSection, setCurrentSection] = useState(0);
 
   // Mock recommendation engine - in real app, this would be AI-powered
   const generateRecommendations = () => {
