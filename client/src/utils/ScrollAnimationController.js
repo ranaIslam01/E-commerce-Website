@@ -74,6 +74,8 @@ class ScrollAnimationController {
       case 'parallax-trigger':
         this.updateParallaxElement(element);
         break;
+      default:
+        break;
     }
   }
 
