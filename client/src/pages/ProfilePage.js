@@ -1,96 +1,10 @@
-import React, { useContext, useReducer, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Store } from '../context/Store';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true };
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, orders: action.payload };
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-const dummyWishlist = [
-  { id: 1, name: 'Canon EOS 80D DSLR Camera', price: 929.99 },
-  { id: 2, name: 'Airpods Wireless Bluetooth Headphones', price: 89.99 },
-];
-const dummyAddresses = [
-  { id: 1, label: 'Home', address: 'Dinajpur Sadar, Rangpur, 5200, Bangladesh' },
-  { id: 2, label: 'Office', address: 'Dhaka, Bangladesh' },
-];
 
 export default function ProfilePage() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
-  const navigate = useNavigate();
-
-  // Profile Picture
-  const [avatar, setAvatar] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState(null);
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setAvatar(file);
-      setAvatarPreview(URL.createObjectURL(file));
-    }
-  };
-
-  // Bio
-  const [bio, setBio] = useState(localStorage.getItem('profileBio') || '');
-  const handleBioSave = () => {
-    localStorage.setItem('profileBio', bio);
-    alert('Bio saved!');
-  };
-
-  // Dark/Light Mode
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true');
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('darkMode', darkMode);
-  }, [darkMode]);
-
-  // Email Verification (dummy)
-  const [emailVerified, setEmailVerified] = useState(false);
-  const handleVerifyEmail = () => {
-    setEmailVerified(true);
-    alert('Email verified! (dummy)');
-  };
-
-  // Change Password
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const handleChangePassword = (e) => {
-    e.preventDefault();
-    if (newPassword !== confirmNewPassword) {
-      alert('New passwords do not match');
-      return;
-    }
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmNewPassword('');
-    alert('Password changed! (dummy)');
-  };
-
-  // Delete Account (dummy)
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const handleDeleteAccount = () => {
-    setShowDeleteModal(false);
-    alert('Account deleted! (dummy)');
-  };
-
-  // Account Created Date
-  const createdDate = userInfo && userInfo.createdAt ? new Date(userInfo.createdAt).toLocaleDateString() : 'N/A';
 
   // Recent Activity (dummy: recent orders)
   const [recentOrders, setRecentOrders] = useState([]);
