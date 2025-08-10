@@ -93,14 +93,22 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            {/* Dark Mode Toggle */}
+            <DarkModeToggle size="sm" />
+
             {/* Wishlist */}
-            <Link 
-              to="/wishlist" 
-              className="relative p-3 rounded-xl hover:bg-gray-100 transition-all duration-300 group"
+            <Link
+              to="/wishlist"
+              className="relative p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 group"
             >
-              <svg className="w-6 h-6 text-gray-700 group-hover:text-primary-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-gray-700 dark:text-gray-300 group-hover:text-primary-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
+              {wishlistCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-gradient-secondary text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center animate-scale-in">
+                  {wishlistCount}
+                </span>
+              )}
             </Link>
 
             {/* Cart */}
