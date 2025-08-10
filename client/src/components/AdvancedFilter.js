@@ -103,7 +103,6 @@ const AdvancedFilter = ({ onFilterChange, currentFilters, onClose }) => {
       sortBy: 'featured'
     };
     setFilters(clearedFilters);
-    setPriceRangeLocal([0, 1000]);
   };
 
   const getActiveFilterCount = () => {
