@@ -5,10 +5,8 @@ import Button from './Button';
 const CinematicHero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [loadedImages, setLoadedImages] = useState(new Set());
   const heroRef = useRef(null);
   const slideRefs = useRef([]);
-  const progressRef = useRef(null);
 
   // Sophisticated hero slides with intentional asymmetry
   const heroSlides = [
@@ -58,14 +56,11 @@ const CinematicHero = () => {
 
   // Preload images for smooth transitions
   useEffect(() => {
-    heroSlides.forEach((slide, index) => {
+    heroSlides.forEach((slide) => {
       const img = new Image();
-      img.onload = () => {
-        setLoadedImages(prev => new Set([...prev, index]));
-      };
       img.src = slide.image;
     });
-  }, []);
+  }, [heroSlides]);
 
   // Auto-advance slides with progress animation
   useEffect(() => {
@@ -76,7 +71,7 @@ const CinematicHero = () => {
     }, slideInterval);
 
     return () => clearInterval(interval);
-  }, [currentSlide, isTransitioning]);
+  }, [currentSlide, isTransitioning, advanceSlide]);
 
   // Progress bar animation
   useEffect(() => {
@@ -90,7 +85,7 @@ const CinematicHero = () => {
     }, 50);
 
     return () => clearInterval(progressInterval);
-  }, [currentSlide]);
+  }, [currentSlide, slideInterval]);
 
   const advanceSlide = useCallback(() => {
     if (isTransitioning) return;
