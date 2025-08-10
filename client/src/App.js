@@ -18,28 +18,25 @@ import MyOrdersPage from './pages/MyOrdersPage';
 function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-gray-100">
-        <Header /> {/* Header e SearchBox ache */}
-        <main className="flex-grow">
-          <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-            <Routes>
-              {/* HomePage route ekhon search query handle korbe */}
-              <Route path="/" element={<HomePage />} /> 
-              <Route path="/product/:id" element={<ProductPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              
-              <Route element={<ProtectedRoute />}>
-                <Route path="/shipping" element={<ShippingAddressPage />} />
-                <Route path="/payment" element={<PaymentMethodPage />} />
-                <Route path="/placeorder" element={<PlaceOrderPage />} />
-                <Route path="/order/:id" element={<OrderPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/myorders" element={<MyOrdersPage />} />
-              </Route>
-            </Routes>
-          </div>
+      <div className="flex flex-col min-h-screen bg-gray-50">
+        <Header />
+        <main className="flex-grow pt-20">
+          <Routes>
+            <Route path="/" element={<HomePage />} /> 
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            
+            <Route element={<ProtectedRoute />}>
+              <Route path="/shipping" element={<ShippingAddressPage />} />
+              <Route path="/payment" element={<PaymentMethodPage />} />
+              <Route path="/placeorder" element={<PlaceOrderPage />} />
+              <Route path="/order/:id" element={<OrderPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/myorders" element={<MyOrdersPage />} />
+            </Route>
+          </Routes>
         </main>
         <Footer />
       </div>
