@@ -360,7 +360,7 @@ class PerformanceOptimizer {
   optimizeThirdParty() {
     // Load third-party scripts with low priority
     const scripts = document.querySelectorAll('script[data-third-party]');
-    
+
     scripts.forEach(script => {
       script.async = true;
       script.defer = true;
@@ -371,13 +371,14 @@ class PerformanceOptimizer {
     // Offload heavy computations to web workers
     if ('Worker' in window) {
       const worker = new Worker('/workers/computation-worker.js');
-      
+
       worker.postMessage({ type: 'HEAVY_COMPUTATION', data: {} });
-      
+
       worker.onmessage = (event) => {
-        const { type, result } = event.data;
+        const { type } = event.data;
         if (type === 'COMPUTATION_COMPLETE') {
-          // Handle result
+          // Handle computation result
+          console.log('Computation completed');
         }
       };
     }
