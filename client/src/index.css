@@ -270,7 +270,7 @@ body {
 }
 
 .card-product {
-  @apply card-modern group cursor-pointer;
+  @apply card-modern cursor-pointer;
   transition: all var(--transition-normal);
 }
 
