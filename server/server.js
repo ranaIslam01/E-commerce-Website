@@ -42,8 +42,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 
 // ✅ Server listen
-const PORT = process.env.PORT || 5000;
+const PORT = 3001; // Force port 3001 for development
 app.listen(PORT, () => {
   console.log(`✅ Server is running on port ${PORT}`);
 });
-console.log('PORT from env:', process.env.PORT);
