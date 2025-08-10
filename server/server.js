@@ -42,7 +42,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 
 // ✅ Server listen
-const PORT = 8000; // Force port 8000 for development
+const PORT = 9876; // Force port 9876 for development
 app.listen(PORT, () => {
   console.log(`✅ Server is running on port ${PORT}`);
 });
