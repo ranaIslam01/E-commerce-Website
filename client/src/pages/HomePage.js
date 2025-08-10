@@ -2,6 +2,8 @@ import React, { useEffect, useReducer, useState } from 'react';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 import HeroSection from '../components/HeroSection';
+import Recommendations from '../components/Recommendations';
+import AdvancedFilter from '../components/AdvancedFilter';
 import Button from '../components/Button';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 
