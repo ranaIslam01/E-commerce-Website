@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { WishlistProvider } from './context/WishlistContext';
 import { DarkModeProvider } from './context/DarkModeContext';
+import PerformanceOptimizer from './utils/PerformanceOptimizer';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProjectVibeHomePage from './pages/ProjectVibeHomePage';
