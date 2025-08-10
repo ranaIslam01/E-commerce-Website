@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Button from './Button';
 
@@ -9,7 +9,7 @@ const CinematicHero = () => {
   const slideRefs = useRef([]);
 
   // Sophisticated hero slides with intentional asymmetry
-  const heroSlides = [
+  const heroSlides = useMemo(() => [
     {
       id: 1,
       title: "Redefine Your Style",
@@ -49,7 +49,7 @@ const CinematicHero = () => {
       textPosition: "center",
       overlay: "gradient-green"
     }
-  ];
+  ], []);
 
   const [progress, setProgress] = useState(0);
   const slideInterval = 8000; // 8 seconds per slide
@@ -62,6 +62,18 @@ const CinematicHero = () => {
     });
   }, [heroSlides]);
 
+  const advanceSlide = useCallback(() => {
+    if (isTransitioning) return;
+
+    setIsTransitioning(true);
+    setProgress(0);
+
+    setTimeout(() => {
+      setCurrentSlide(prev => (prev + 1) % heroSlides.length);
+      setIsTransitioning(false);
+    }, 600);
+  }, [isTransitioning, heroSlides.length]);
+
   // Auto-advance slides with progress animation
   useEffect(() => {
     const interval = setInterval(() => {
@@ -71,7 +83,7 @@ const CinematicHero = () => {
     }, slideInterval);
 
     return () => clearInterval(interval);
-  }, [currentSlide, isTransitioning, advanceSlide]);
+  }, [currentSlide, isTransitioning, advanceSlide, slideInterval]);
 
   // Progress bar animation
   useEffect(() => {
@@ -86,18 +98,6 @@ const CinematicHero = () => {
 
     return () => clearInterval(progressInterval);
   }, [currentSlide, slideInterval]);
-
-  const advanceSlide = useCallback(() => {
-    if (isTransitioning) return;
-    
-    setIsTransitioning(true);
-    setProgress(0);
-    
-    setTimeout(() => {
-      setCurrentSlide(prev => (prev + 1) % heroSlides.length);
-      setIsTransitioning(false);
-    }, 600);
-  }, [isTransitioning, heroSlides.length]);
 
   const goToSlide = (index) => {
     if (index === currentSlide || isTransitioning) return;
