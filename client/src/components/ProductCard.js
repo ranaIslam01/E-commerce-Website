@@ -9,8 +9,7 @@ import Button from './Button';
 const ProductCard = ({ product }) => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart } = state;
-  
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [showQuickView, setShowQuickView] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
